@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alunos</string>
+    <string name="cadastro_aluno_nome_tela">Cadastro Banbine</string>
+    <string name="cadastro_aluno_nome_label">Nome</string>
+    <string name="cadastro_aluno_nome_hint">digite seu nome aqui</string>
+    <string name="cadastro_aluno_telefone_hint">digite seu telefone aqui</string>
+    <string name="cadastro_aluno_telefone_label">Telefone</string>
+    <string name="cadastro_aluno_nota_label">Nota</string>
+    <string name="cadastro_aluno_salvar_label">Salvar</string>
+    <string name="lista_alunos_novo">Novo</string>
+    <string name="lista_alunos_context_remover">Remover</string>
+    <string name="lista_alunos_context_toast">Toast</string>
+    <string name="lista_alunos_context_sms">Enviar sms</string>
+    <string name="lista_alunos_context_ligar">Ligar</string>
+    <string name="EXTRA_OBJECT">OBJECT</string>
+    <string name="ca_alterar_label">Alterar</string>
+    <string name="ca_incluir_label">Incluir</string>
+</resources>

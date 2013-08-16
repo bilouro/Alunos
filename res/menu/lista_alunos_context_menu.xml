@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+            android:id="@+id/lista_alunos_context_remover_id"
+            android:title="@string/lista_alunos_context_remover"/>
+    <item
+            android:id="@+id/lista_alunos_context_sms_id"
+            android:title="@string/lista_alunos_context_sms"/>
+    <item
+            android:id="@+id/lista_alunos_context_ligar_id"
+            android:title="@string/lista_alunos_context_ligar"/>
+</menu>

@@ -1,0 +1,23 @@
+#
+# generated on 2013/08/15 09:21:43
+#
+# --table-start--
+dataClass=com.bilouro.modelo.Aluno
+tableName=aluno
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=nome
+# --field-end--
+# --field-start--
+fieldName=telefone
+# --field-end--
+# --field-start--
+fieldName=nota
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
