@@ -9,4 +9,17 @@
     <item
             android:id="@+id/lista_alunos_context_ligar_id"
             android:title="@string/lista_alunos_context_ligar"/>
+    <item
+            android:id="@+id/lista_alunos_context_site_id"
+            android:title="@string/lista_alunos_context_site"/>
+    <item
+            android:id="@+id/lista_alunos_context_mapa_id"
+            android:title="@string/lista_alunos_context_mapa"/>
+    <item
+            android:id="@+id/lista_alunos_context_email_id"
+            android:title="@string/lista_alunos_context_email"/>
+    <item
+            android:id="@+id/lista_alunos_context_compartilhar_id"
+            android:title="@string/lista_alunos_context_compartilhar"/>
+
 </menu>

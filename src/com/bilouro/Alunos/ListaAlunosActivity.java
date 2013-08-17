@@ -106,6 +106,7 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        Intent i;
         switch(item.getItemId()){
             case R.id.lista_alunos_context_remover_id:
                 new AlertDialog.Builder(ListaAlunosActivity.this).
@@ -123,10 +124,29 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                 return true;
 
             case R.id.lista_alunos_context_ligar_id:
-                Intent i = new Intent(Intent.ACTION_CALL);
+                i = new Intent(Intent.ACTION_CALL);
                 i.setData(Uri.parse("tel:"+aluno_selecionado.getTelefone()));
-                startActivity(i);
-                return true;
+                item.setIntent(i);
+                return false;
+
+            case R.id.lista_alunos_context_sms_id:
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("sms:"+aluno_selecionado.getTelefone()));
+                i.putExtra("sms_body", "Oi " + aluno_selecionado.getNome() + " sua nota foi: " + (int) aluno_selecionado.getNota() +"!");
+                item.setIntent(i);
+                return false;
+
+            case R.id.lista_alunos_context_mapa_id:
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("geo:0,0?z=14&q=Rua do Ouvidor, 50, Rio de Janeiro"));
+                item.setIntent(i);
+                return false;
+
+            case R.id.lista_alunos_context_site_id:
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("http://www.google.com"));
+                item.setIntent(i);
+                return false;
         }
         return true;
     }

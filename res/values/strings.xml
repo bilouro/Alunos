@@ -17,4 +17,8 @@
     <string name="ca_alterar_label">Alterar</string>
     <string name="ca_incluir_label">Incluir</string>
     <string name="ZERO">0</string>
+    <string name="lista_alunos_context_site">Ir site</string>
+    <string name="lista_alunos_context_mapa">ver mapa</string>
+    <string name="lista_alunos_context_email">Enviar e-mail</string>
+    <string name="lista_alunos_context_compartilhar">Compartilhar...</string>
 </resources>
