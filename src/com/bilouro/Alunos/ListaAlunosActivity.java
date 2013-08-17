@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;
@@ -119,6 +120,11 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                                 carrega_lista();
                             }
                         }).setNegativeButton("Não", null).show();
+                return true;
+            case R.id.lista_alunos_context_ligar_id:
+                Intent i = new Intent(Intent.ACTION_CALL);
+                i.setData(Uri.parse("tel:"+aluno_selecionado.getTelefone()));
+                startActivity(i);
                 return true;
         }
         return true;
