@@ -121,6 +121,7 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                             }
                         }).setNegativeButton("Não", null).show();
                 return true;
+
             case R.id.lista_alunos_context_ligar_id:
                 Intent i = new Intent(Intent.ACTION_CALL);
                 i.setData(Uri.parse("tel:"+aluno_selecionado.getTelefone()));
