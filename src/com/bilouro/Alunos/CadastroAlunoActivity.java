@@ -40,6 +40,7 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                 Aluno aluno = fh.pegaAlunoDoFormulario(value_object);
 
                 int linhas_afetadas = 0;
+
                 RuntimeExceptionDao<Aluno, Integer> alunoDao = getHelper().getRuntimeExceptionAlunoDao();
                 if ( aluno.getId() != null ) {
                     linhas_afetadas = alunoDao.update(aluno);
@@ -58,6 +59,29 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
         ImageView imageView = (ImageView) findViewById(R.id.ca_img);
         imageView.setImageResource(R.drawable.ic_no_image);
+
+
+        final TextView tv = (TextView) findViewById(R.id.seek_progress);
+
+        SeekBar nota = (SeekBar) findViewById(R.id.ca_seek_nota);
+        nota.setMax(10);
+        nota.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv.setText("" + seekBar.getProgress());
+                tv.refreshDrawableState();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
 
     }
 

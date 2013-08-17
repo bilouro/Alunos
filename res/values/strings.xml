@@ -16,4 +16,5 @@
     <string name="EXTRA_OBJECT">OBJECT</string>
     <string name="ca_alterar_label">Alterar</string>
     <string name="ca_incluir_label">Incluir</string>
+    <string name="ZERO">0</string>
 </resources>
