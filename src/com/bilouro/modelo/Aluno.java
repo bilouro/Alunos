@@ -16,6 +16,8 @@ public class Aluno implements Serializable{
     private String telefone;
     @DatabaseField
     private double nota;
+    @DatabaseField
+    private String foto;
 
     Aluno() {
         // needed by ormlite
@@ -31,9 +33,6 @@ public class Aluno implements Serializable{
         this.nota = nota;
         this.foto = foto;
     }
-
-    //sera guardado no sdcard
-    private String foto;
 
     public Long getId() {
         return id;
