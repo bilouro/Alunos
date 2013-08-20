@@ -1,6 +1,11 @@
 package com.bilouro.Alunos;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.*;
 import com.bilouro.Alunos.helper.FormularioHelper;
@@ -9,9 +14,22 @@ import com.bilouro.modelo.Aluno;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import java.io.File;
+
 public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
     private Aluno value_object;
+    final int REQUEST_CODE_ACTION_IMAGE_CAPTURE = 0;
+    private String caminho_imagem_aluno;
+    private FormularioHelper formularioHelper;
+
+    public void setCaminho_imagem_aluno(String caminho_imagem_aluno) {
+        this.caminho_imagem_aluno = caminho_imagem_aluno;
+    }
+
+    public String getCaminho_imagem_aluno() {
+        return caminho_imagem_aluno;
+    }
 
     /**
      * Called when the activity is first created.
@@ -21,23 +39,25 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastro_alunos);
 
+        formularioHelper = new FormularioHelper(CadastroAlunoActivity.this);
+
         value_object = (Aluno) getIntent().getSerializableExtra(getString(R.string.EXTRA_OBJECT));
         Button btn = (Button) findViewById(R.id.ca_btn_salvar);
 
+        //todo: levar para dentro do FormularioHelper
         if (value_object != null) {
-              new FormularioHelper(CadastroAlunoActivity.this).setaAlunoNoFormulario(value_object);
-              btn.setText(getString(R.string.ca_alterar_label));
+            formularioHelper.setaAlunoNoFormulario(value_object);
+            btn.setText(getString(R.string.ca_alterar_label));
         } else {
             value_object = new Aluno(null);
+            formularioHelper.setaAlunoNoFormulario(value_object);
             btn.setText(getString(R.string.ca_incluir_label));
         }
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FormularioHelper fh = new FormularioHelper(CadastroAlunoActivity.this);
-
-                Aluno aluno = fh.pegaAlunoDoFormulario(value_object);
+                Aluno aluno = formularioHelper.pegaAlunoDoFormulario(value_object);
 
                 int linhas_afetadas = 0;
 
@@ -58,7 +78,19 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         });
 
         ImageView imageView = (ImageView) findViewById(R.id.ca_img);
-        imageView.setImageResource(R.drawable.ic_no_image);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setCaminho_imagem_aluno(System.currentTimeMillis() + ".jpg");
+
+                Uri caminho_arquivo = Uri.fromFile(new File(Environment.getExternalStorageDirectory()+ "/" +getCaminho_imagem_aluno()));
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                i.putExtra(MediaStore.EXTRA_OUTPUT, caminho_arquivo);
+
+                startActivityForResult(i, REQUEST_CODE_ACTION_IMAGE_CAPTURE);
+            }
+        });
 
 
         final TextView tv = (TextView) findViewById(R.id.seek_progress);
@@ -85,5 +117,14 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_ACTION_IMAGE_CAPTURE ) {
+            if (resultCode == Activity.RESULT_OK){
+                formularioHelper.carrega_imagem();
+            } else {
+                setCaminho_imagem_aluno(value_object.getFoto());
+            }
+        }
+    }
 }
