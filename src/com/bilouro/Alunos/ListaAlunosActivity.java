@@ -16,6 +16,8 @@ import com.bilouro.modelo.Aluno;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
@@ -107,7 +109,7 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Intent i;
-        switch(item.getItemId()){
+        switch(item.getItemId()) {
             case R.id.lista_alunos_context_remover_id:
                 new AlertDialog.Builder(ListaAlunosActivity.this).
                         setIcon(android.R.drawable.ic_dialog_alert).
@@ -120,7 +122,9 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                                 int i = alunoDao.delete(aluno_selecionado);
                                 carrega_lista();
                             }
-                        }).setNegativeButton("Não", null).show();
+                        }).
+                        setNegativeButton("Não", null).
+                        show();
                 return true;
 
             case R.id.lista_alunos_context_ligar_id:
@@ -144,11 +148,29 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
             case R.id.lista_alunos_context_site_id:
                 i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("http://www.google.com"));
+                i.setData(Uri.parse("http://www.google.com.br/search?q=" + aluno_selecionado.getNome()));
                 item.setIntent(i);
                 return false;
-        }
-        return true;
-    }
 
+            case R.id.lista_alunos_context_email_id:
+                String uriText = null;
+                uriText = "mailto:"+aluno_selecionado.getNome()+"@gmail.com" +
+                        "?subject=" + "Segue email com sua nota" +
+                        "&body=" + "Oi " + aluno_selecionado.getNome() + " sua nota foi: " + (int) aluno_selecionado.getNota() +"!";
+                Uri uri = Uri.parse(uriText);
+                i = new Intent(Intent.ACTION_SENDTO);
+                i.setData(uri);
+                startActivity(Intent.createChooser(i, "Enviar via"));
+                return false;
+
+            case R.id.lista_alunos_context_compartilhar_id:
+                i = new Intent(android.content.Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Nota "+ (int) aluno_selecionado.getNota() );
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "O "+ aluno_selecionado.getNome()+ " deu nota "+ (int) aluno_selecionado.getNota()+ " para o Curso X");
+                startActivity(Intent.createChooser(i, "Compartilhar via"));
+                return false;
+        }
+        return false;
+    }
 }
