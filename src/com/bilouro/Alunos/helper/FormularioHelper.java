@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bilouro.Alunos.CadastroAlunoActivity;
 import com.bilouro.Alunos.R;
 import com.bilouro.modelo.Aluno;
+import com.bilouro.utils.Utils;
 
 public class FormularioHelper {
 
@@ -46,14 +47,8 @@ public class FormularioHelper {
     }
 
     public void carrega_imagem() {
-        try {
-            Bitmap bmp = BitmapFactory.decodeFile(
-                    Environment.getExternalStorageDirectory() + "/" + activity.getCaminho_imagem_aluno()
-            );
-            Bitmap reduced_bmp = Bitmap.createScaledBitmap(bmp, 100, 100, true);
-            imageView.setImageBitmap( reduced_bmp );
-        } catch (Exception e) {
-            imageView.setImageResource(R.drawable.ic_no_image);
-        }
+        Utils.carrega_imagem_reduzida(activity.getCaminho_imagem_aluno(), imageView, R.drawable.ic_no_image);
     }
+
+
 }

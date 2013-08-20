@@ -74,12 +74,12 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         RuntimeExceptionDao<Aluno, Integer> alunoDao = getHelper().getRuntimeExceptionAlunoDao();
         List<Aluno> aluno_list = alunoDao.queryForAll();
 
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>( this, android.R.layout.simple_list_item_1, aluno_list);
+//        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>( this, android.R.layout.simple_list_item_1, aluno_list);
+        final ListaAlunosAdapter adapter = new ListaAlunosAdapter(this, aluno_list);
 
         ListView lista_alunos = (ListView) findViewById(R.id.listView);
         //LISTVIEW adapter
         lista_alunos.setAdapter(adapter);
-
     }
 
     @Override
