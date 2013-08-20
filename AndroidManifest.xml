@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.Light">
 
         <activity android:name="ListaAlunosActivity"
@@ -21,5 +22,11 @@
         <activity android:name="CadastroAlunoActivity"
                   android:label="@string/cadastro_aluno_nome_tela">
         </activity>
+
+        <receiver android:name="SMSReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
