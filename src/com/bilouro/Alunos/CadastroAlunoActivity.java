@@ -18,7 +18,7 @@ import java.io.File;
 
 public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
-    private Aluno value_object;
+    private Aluno aluno_selecionado;
     final int REQUEST_CODE_ACTION_IMAGE_CAPTURE = 0;
     private String caminho_imagem_aluno;
     private FormularioHelper formularioHelper;
@@ -39,39 +39,24 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastro_alunos);
 
-        formularioHelper = new FormularioHelper(CadastroAlunoActivity.this);
+        aluno_selecionado = (Aluno) getIntent().getSerializableExtra(getString(R.string.EXTRA_OBJECT));
+        if ( aluno_selecionado == null)aluno_selecionado = new Aluno(null);
 
-        value_object = (Aluno) getIntent().getSerializableExtra(getString(R.string.EXTRA_OBJECT));
+        formularioHelper = new FormularioHelper(CadastroAlunoActivity.this, aluno_selecionado);
+        formularioHelper.configura_formulario();
+
         Button btn = (Button) findViewById(R.id.ca_btn_salvar);
-
-        //todo: levar para dentro do FormularioHelper
-        if (value_object != null) {
-            formularioHelper.setaAlunoNoFormulario(value_object);
-            btn.setText(getString(R.string.ca_alterar_label));
-        } else {
-            value_object = new Aluno(null);
-            formularioHelper.setaAlunoNoFormulario(value_object);
-            btn.setText(getString(R.string.ca_incluir_label));
-        }
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Aluno aluno = formularioHelper.pegaAlunoDoFormulario(value_object);
-
-                int linhas_afetadas = 0;
+                Aluno aluno = formularioHelper.pegaAlunoDoFormulario(aluno_selecionado);
 
                 RuntimeExceptionDao<Aluno, Integer> alunoDao = getHelper().getRuntimeExceptionAlunoDao();
                 if ( aluno.getId() != null ) {
-                    linhas_afetadas = alunoDao.update(aluno);
-                    Toast.makeText(CadastroAlunoActivity.this, "Aluno "+ aluno.getNome() +" alterado!", Toast.LENGTH_SHORT).show();
+                    alunoDao.update(aluno);
                 } else {
-                    linhas_afetadas = alunoDao.create(aluno);
-                    Toast.makeText(CadastroAlunoActivity.this, "Aluno "+ aluno.getNome() +" incluido!", Toast.LENGTH_SHORT).show();
-                }
-
-                if (linhas_afetadas == 0 ) {
-                    Toast.makeText(CadastroAlunoActivity.this, "Aluno "+ aluno.getNome() +"NÃO FOI salvo!", Toast.LENGTH_SHORT).show();
+                    alunoDao.create(aluno);
                 }
                 finish();
             }
@@ -91,30 +76,6 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
                 startActivityForResult(i, REQUEST_CODE_ACTION_IMAGE_CAPTURE);
             }
         });
-
-
-        final TextView tv = (TextView) findViewById(R.id.seek_progress);
-
-        SeekBar nota = (SeekBar) findViewById(R.id.ca_seek_nota);
-        nota.setMax(10);
-        nota.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tv.setText("" + seekBar.getProgress());
-                tv.refreshDrawableState();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-
     }
 
     @Override
@@ -123,7 +84,7 @@ public class CadastroAlunoActivity extends OrmLiteBaseActivity<DatabaseHelper> {
             if (resultCode == Activity.RESULT_OK){
                 formularioHelper.carrega_imagem();
             } else {
-                setCaminho_imagem_aluno(value_object.getFoto());
+                setCaminho_imagem_aluno(aluno_selecionado.getFoto());
             }
         }
     }

@@ -3,10 +3,7 @@ package com.bilouro.Alunos.helper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.bilouro.Alunos.CadastroAlunoActivity;
 import com.bilouro.Alunos.R;
 import com.bilouro.modelo.Aluno;
@@ -20,13 +17,19 @@ public class FormularioHelper {
     private ImageView imageView;
     private final TextView tv_progress;
     private CadastroAlunoActivity activity;
+    private Aluno aluno_selecionado;
+    private final Button btn;
+    private final TextView tv_seek;
 
-    public FormularioHelper(CadastroAlunoActivity activity) {
+    public FormularioHelper(CadastroAlunoActivity activity, Aluno aluno_selecionado) {
+        this.aluno_selecionado = aluno_selecionado;
         nome = (EditText) activity.findViewById(R.id.ca_nome);
         telefone = (EditText) activity.findViewById(R.id.ca_telefone);
         nota = (SeekBar) activity.findViewById(R.id.ca_seek_nota);
         imageView = (ImageView) activity.findViewById(R.id.ca_img);
         tv_progress = (TextView) activity.findViewById(R.id.seek_progress);
+        btn = (Button) activity.findViewById(R.id.ca_btn_salvar);
+        tv_seek = (TextView) activity.findViewById(R.id.seek_progress);
         this.activity = activity;
     }
 
@@ -51,4 +54,26 @@ public class FormularioHelper {
     }
 
 
+    public void configura_formulario() {
+        nota.setMax(10);
+        nota.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv_seek.setText("" + seekBar.getProgress());
+                tv_seek.refreshDrawableState();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        if (aluno_selecionado.getId() != null) {
+            btn.setText(activity.getString(R.string.ca_alterar_label));
+        } else {
+            btn.setText(activity.getString(R.string.ca_incluir_label));
+        }
+        setaAlunoNoFormulario(aluno_selecionado);
+    }
 }
+

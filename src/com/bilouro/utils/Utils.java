@@ -16,11 +16,15 @@ public class Utils {
 
     public static void carrega_imagem_reduzida(String filename, ImageView _imageview, int no_image_resource) {
         try {
-            Bitmap bmp = BitmapFactory.decodeFile(
-                    Environment.getExternalStorageDirectory() + "/" + filename
-            );
-            Bitmap reduced_bmp = Bitmap.createScaledBitmap(bmp, 100, 100, true);
-            _imageview.setImageBitmap(reduced_bmp);
+            if (filename != null && !filename.equals("")) {
+                Bitmap bmp = BitmapFactory.decodeFile(
+                        Environment.getExternalStorageDirectory() + "/" + filename
+                );
+                Bitmap reduced_bmp = Bitmap.createScaledBitmap(bmp, 100, 100, true);
+                _imageview.setImageBitmap(reduced_bmp);
+            } else {
+                _imageview.setImageResource(no_image_resource);
+            }
         } catch (Exception e) {
             _imageview.setImageResource(no_image_resource);
         }
