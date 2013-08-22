@@ -22,4 +22,6 @@
     <string name="lista_alunos_context_email">Enviar e-mail</string>
     <string name="lista_alunos_context_compartilhar">Compartilhar...</string>
     <string name="lista_alunos_transmitir">Transmitir</string>
+    <string name="lista_alunos_provas">Provas</string>
+    <string name="prova_activity">Provas</string>
 </resources>

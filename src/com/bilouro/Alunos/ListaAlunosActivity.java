@@ -109,6 +109,11 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
             String json_object_list = Aluno.to_json(aluno_list);
             new AlunoRetriveAsyncTask(this).execute( json_object_list );
             return false;
+        } else if (idSelecionado == R.id.menu_provas) {
+
+            Intent intent = new Intent(ListaAlunosActivity.this, ProvaActivity.class);
+            startActivity(intent);
+            return true;
         }
         return false;
     }
