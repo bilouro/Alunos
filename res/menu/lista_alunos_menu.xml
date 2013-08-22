@@ -5,5 +5,10 @@
             android:icon="@drawable/ic_novo"
             android:showAsAction="always"
             android:title="@string/lista_alunos_novo"/>
+    <item
+            android:id="@+id/menu_transmitir"
+            android:icon="@drawable/ic_enviar"
+            android:showAsAction="always"
+            android:title="@string/lista_alunos_transmitir"/>
 
 </menu>

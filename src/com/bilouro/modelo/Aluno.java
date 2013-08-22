@@ -2,8 +2,11 @@ package com.bilouro.modelo;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.json.JSONException;
+import org.json.JSONStringer;
 
 import java.io.Serializable;
+import java.util.List;
 
 @DatabaseTable(tableName = "aluno")
 public class Aluno implements Serializable{
@@ -79,4 +82,44 @@ public class Aluno implements Serializable{
         this.nota = nota;
     }
 
+    private void appendJsonStringer(JSONStringer jsonStringer) {
+        try {
+
+            if ( jsonStringer == null ) jsonStringer = new JSONStringer() ;
+
+            jsonStringer
+                .object()
+                .key("id").value(this.getId())
+                .key("nome").value(this.getNome())
+                .key("foto").value(this.getFoto())
+                .key("nota").value(this.getNota())
+                .key("telefone").value(this.getTelefone())
+                .endObject();
+
+        } catch (JSONException e) {
+
+        }
+    }
+
+    public static String to_json(List<Aluno> aluno_List) {
+        JSONStringer jsonStringer = null;
+        try {
+            jsonStringer = new JSONStringer();
+
+            jsonStringer.object().key("list").array().
+                         object().key("aluno").array();
+            
+            for ( Aluno aluno: aluno_List ) {
+                aluno.appendJsonStringer(jsonStringer);
+            }
+
+            return jsonStringer.endArray().endObject().
+                    endArray().endObject().toString();
+
+        } catch (JSONException e) {
+            return "";
+        }
+
+
+    }
 }

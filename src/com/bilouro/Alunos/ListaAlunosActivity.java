@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.bilouro.database.DatabaseHelper;
 import com.bilouro.modelo.Aluno;
+import com.bilouro.utils.WebClient;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -24,6 +25,7 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 
     private Aluno aluno_selecionado;
+    private List<Aluno> aluno_list;
 
     /**
      * Called when the activity is first created.
@@ -72,7 +74,7 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
     private void carrega_lista() {
 
         RuntimeExceptionDao<Aluno, Integer> alunoDao = getHelper().getRuntimeExceptionAlunoDao();
-        List<Aluno> aluno_list = alunoDao.queryForAll();
+        aluno_list = alunoDao.queryForAll();
 
 //        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>( this, android.R.layout.simple_list_item_1, aluno_list);
         final ListaAlunosAdapter adapter = new ListaAlunosAdapter(this, aluno_list);
@@ -102,6 +104,11 @@ public class ListaAlunosActivity extends OrmLiteBaseActivity<DatabaseHelper> {
             Intent intent = new Intent(ListaAlunosActivity.this, CadastroAlunoActivity.class);
             startActivity(intent);
             return true;
+        } else if (idSelecionado == R.id.menu_transmitir) {
+
+            String json_object_list = Aluno.to_json(aluno_list);
+            new AlunoRetriveAsyncTask(this).execute( json_object_list );
+            return false;
         }
         return false;
     }
