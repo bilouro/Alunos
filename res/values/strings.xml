@@ -25,4 +25,5 @@
     <string name="lista_alunos_provas">Provas</string>
     <string name="prova_activity">Provas</string>
     <string name="const_prova_selecionada">PROVA_SELECIONADA</string>
+    <string name="const_prova_lista">PROVA_LIST</string>
 </resources>
